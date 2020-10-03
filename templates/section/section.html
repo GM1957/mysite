@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}
+{{query}}
+{% endblock title %}
+
+{% block body %}
+
+<!-- good font
+style="font-family: 'El Messiri', sans-serif; font-size: 40px;" -->
+
+<div class="container pt-3" style="width: 75%;">
+
+    <div class="my-3 p-5 bg-white rounded shadow-lg">
+        <div class="row">
+            <div class="col-md-10">
+                <h2 class="border-bottom border-gray pb-3 mb-0"
+                    style="font-family: 'El Messiri', sans-serif; font-size: 40px;">
+                    Top Queries</h2>
+            </div>
+            <div class="col-md-2">
+                {% if user.is_authenticated %}
+                <a href="AddNewPost"><button type="submit" class="btn btn-sm btn-outline-success mt-2"> Add new post</button></a>
+                {% else %}
+                <button type="button" class="btn btn-sm btn-outline-success mt-2" data-toggle="popover"
+                    title="@Login Required" data-content="Please login to add a new post">Add new post</button>
+                {% endif %}
+            </div>
+        </div>
+
+        {% for post in page_obj %}
+
+        <div class="media text pt-2">
+            <svg class="bi bi-shift-fill mt-2 mr-4 ml-2" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M7.27 2.047a1 1 0 0 1 1.46 0l6.345 6.77c.6.638.146 1.683-.73 1.683H11.5v3a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-3H1.654C.78 10.5.326 9.455.924 8.816L7.27 2.047z" />
+            </svg>
+
+            <h3 class="media-body pb-0 mb-0 border-bottom border-gray">
+                <a href='{{post.slug}}' class="d-block text-gray-dark" style="font-size: 21px">{{post.title}}</a>
+                {% comment %} <p>{{post.content| truncatechars:300}}</p> {% endcomment %}
+                <p class="pt-1 pb-0 mb-1 " style="font-size: small;">@{{post.author}}</p>
+
+            </h3>
+        </div>
+
+        {% endfor %}
+    </div>
+        <!-- paginator section -->
+
+        <div>
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm justify-content-end">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" style="color:#3C4146; border-color:darkgray"
+                            href="?query={{query}}&page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+
+                    {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                    {% if i == page_obj.number %}
+                    <li class="page-item active"><a class="page-link" style="background-color:green; border:none;"
+                            href="?query={{query}}&page={{i}}">{{i}}</a></li>
+
+                    {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                    <li class="page-item mx-1"><a class="page-link" style="border-radius:5px; border-color:darkgray;"
+                            href="?query={{query}}&page={{i}}">
+                            <font color='#3C4146'>{{i}}</font>
+                        </a></li>
+
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" style="color:#3C4146; border-color:darkgray"
+                            href="?query={{query}}&page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+
+    
+    
+</div>
+
+
+
+
+{% endblock body %}

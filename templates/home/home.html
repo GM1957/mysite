@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block title %}
+PrefixPostfix
+{% endblock title %}
+
+{% block body %}
+<div class="jumbotron jumbotron-fluid mb-0 "
+    style="background-color:black; background-size: cover; height:470px; overflow:hidden; display:block; box-shadow: 0 3px 17px rgba(0, 0, 0, 2);
+    ">
+    <div class="container">
+        <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+        <div style="margin:0px auto; text-align:center;">
+            <img src="static/logo/prefixpostfix.png" width="160" height="160">
+        </div>
+        <h1 style="font-family:'Special Elite', cursive; font-size:37px; color:#39ff14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;"><span id="typed"></span></h1>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/typed.js"></script>
+        <script type="text/javascript">
+            var typed = new Typed('#typed', {
+                strings: ["When technology meets a learner, innovation happens.", "Learn something new with every click.", "It's the bit by bit effort that makes one perfect.", "Almost time for your brain cells to do some work-out.", "Add value to your skill-set a little more.", "There's always something to learn.", "A one stop spot for all your tech related queries."],
+                backSpeed: 15,
+                smartBackspace: true,
+                backDelay: 1200,
+                startDelay: 1000,
+                typeSpeed: 25,
+                loop: true,
+
+            });
+        </script>
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+        <h4 style="color: #DCDCDC; text-align:center; font-family: 'Indie Flower', cursive;">There is nothing as a good
+            programmer or a bad programmer, the one who stays steady in the long path of learning, escalates their way
+            to their dreams.</h4>
+    </div>
+    <div class="container mt-5" style="text-align: center;">
+
+        <a type='submit' class="btn btn-outline-danger btn-md mx-2" href='/blog'>Blogs</a>
+        <a type='submit' class="btn btn-outline-warning btn-md mx-2" href='/contact'>Contact</a>
+        <a type='submit' class="btn btn-outline-primary btn-md mx-2" href='/feed'>Feed</a>
+
+    </div>
+
+</div>
+
+    <div class=' btn btn-outline-success btn-sm ' style='padding:2px; float: right; margin-right: 80px; margin-top: 40px; border: solid 1px green; border-radius: 100px'>
+        <a href='/addnewfield'>
+        <svg style="color: green;" class="bi bi-plus" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
+            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
+        </svg>
+        </a>
+    </div>
+
+
+<div class="container pr-0" style="padding-left:45px; margin-top: 60px;">
+    <div class="row mx-5 my-5">
+
+    {% for j in page_obj %}
+        <form method="get" action="/listofposts">
+            <div class="col-md-4 col-sm-6 col-lg-3 text-center mt-4 ">
+                <div class="card" style="width: 18rem; border: none;">
+                    <div style="margin:0px auto; padding: 0px; text-align:center;">
+                        <img src="/media/{{j.image}}" class="card-img-top rounded-circle mt-3"
+                            style="height: 140px; width: 140px;" alt="...">
+                    </div>
+                    <div class="card-body p-2">
+                        <h3 class="card-title mt-1 mb-0">{{j.product_name}}</h3>
+                        <p style="font-size: 15px;" class="card-text mb-1">{{j.description|truncatechars:55 }}.</p>
+                        <input type="hidden" id="query" name="query" value="{{j.productUniquename}}">
+                        <button type="submit" href="listofposts" class="btn btn-warning mt-0"><b>Browse Queries</b></button>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
+
+    </div>
+
+    <!-- paginator section  -->
+    {% comment %}
+    *****for help****
+    {{page_obj.has_previous}} //gives true or false value
+    {{page_obj.number}} // gives current page number
+    {{page_obj.paginator.count}} // how many items are present
+    {{page_obj.paginator.num_pages}} //how many pages
+    {{page_obj.paginator.page_range}} // gives the range of pages which you can iterate through
+    {{page_obj.has_next}} // gives true or false value
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+
+    {% endcomment %}
+
+    <div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-end">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" style="color:#3C4146; border-color:darkgray" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+
+                {% endif %}
+
+                {% for i in page_obj.paginator.page_range %}
+                {% if i == page_obj.number %}
+                <li class="page-item active"><a class="page-link"  style="background-color:green; border:none;" href="?page={{i}}">{{i}}</a></li>
+
+                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                <li class="page-item mx-1"><a class="page-link" style="border-radius:5px; border-color:darkgray;" href="?page={{i}}"><font color='#3C4146'>{{i}}</font></a></li>
+
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" style="color:#3C4146; border-color:darkgray" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+
+
+</div>
+
+
+{% endblock body %}

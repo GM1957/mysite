@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}PrefixPostfix Blog - Learn better, Learn Smatter
+{% endblock title %}
+
+{% block body %}
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+<div style="font-family: 'El Messiri', sans-serif; font-weight:400;">
+
+
+
+  <div class="jumbotron shadow-lg" style="background: url('static/img/jumbocoverfinal1.jpg') no-repeat center center;width:100%;
+  height: 425px; border-radius: 0px;
+  background-size:cover;">
+    <h4 style="float: left; margin-top: 3%; font-family:'Special Elite', cursive; font-size:40px; color:gray;">
+      {{request.user}},</h4>
+  </div>
+
+
+<div class="container" style="text-align: center; width:80%;">
+  <form method="get" action="/blog/Blogsearch" class="form-inline my-lg-4">
+    <input class="form-control mr-1 ml-4" name="search" id="search"
+        style="background-color: transparent; outline: none; border: none;border-bottom: 1px solid green; color: black; border-radius: 0; box-shadow: none;
+        width: 90%;"
+        type="search" placeholder="Search Blog Posts Here...." aria-label="Search">
+    <button class="btn btn-outline-success my-2 mr-4 my-sm-0" style="border:none; border-radius: 10rem;"
+        type="submit">
+        <svg class="bi bi-search" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+            <path fill-rule="evenodd"
+                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+        </svg>
+    </button>
+
+  </form>
+</div>
+
+
+  <div class="container" style="width:80%">
+
+    <div class="row">
+      <div class='col-md-10' style="text-align: left;">
+        <h1 class="mt-3">Most Recent Posts</h1>
+      </div>
+      <div class="col-md-2" style="text-align:right;">
+
+        <a class='btn btn-info mb-5 mt-2' type="submit" href="blog/createblog">Create Post</a>
+      </div>
+    </div>
+
+
+    <div class="row">
+      {% for blog in page_obj %}
+      <div class="col-md-12">
+        <div class="row no-gutters overflow-hidden flex-md-row mb-4 shadow-lg h-md-250 position-relative"
+          style="word-wrap: break-word;">
+          <div class="col-auto d-none d-lg-block">
+            <img class="bd-placeholder-img p-0 m-0" width="300" height="250" role="img"
+              src="{{blog.Thumbnail_image.url}}">
+
+            </img>
+          </div>
+          <div class="col pr-0 pt-4 pb-4 pl-4 d-flex flex-column position-static">
+            <a class="d-inline-block " href="blog/{{blog.slug}}">
+              <h2>{{blog.blogtitle}}</h2>
+            </a>
+            <p class="m-0" style="font-size:18px;">{{blog.blog_des|truncatechars:100}}</p>
+            <div class="mb-1 text-muted"> <small>{{blog.time}}</small></div>
+            <a href="blog/{{blog.slug}}" class="btn btn-success">Continue reading</a>
+          </div>
+          <div class="col-md-2 d-none d-sm-block" width="170" height="250"
+            style="padding-right: 0px; padding-left: 0px;">
+            <div class="container mt-2" style="text-align: center;">
+
+              <img class="bd-placeholder-img rounded-circle mt-5" width="80" height="80"
+                src="{{blog.writer.userdata.profile_pic.url}}" alt=""> <br>
+              <small>Written by,</small><br>
+              <p>@{{blog.writer.username}}</p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+  
+
+
+<!-- paginator -->
+    <div style="font-family: sans-serif">
+      <nav aria-label="...">
+        <ul class="pagination pagination-sm justify-content-end">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" style="color:#3C4146; border-color:darkgray"
+              href="?page={{ page_obj.previous_page_number }}">Previous</a>
+          </li>
+  
+          {% endif %}
+  
+          {% for i in page_obj.paginator.page_range %}
+          {% if i == page_obj.number %}
+          <li class="page-item active"><a class="page-link" style="background-color:green; border:none;"
+              href="?page={{i}}">{{i}}</a></li>
+  
+          {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+          <li class="page-item mx-1"><a class="page-link" style="border-radius:5px; border-color:darkgray;"
+              href="?page={{i}}">
+              <font color='#3C4146'>{{i}}</font>
+            </a></li>
+  
+          {% endif %}
+          {% endfor %}
+  
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" style="color:#3C4146; border-color:darkgray"
+              href="?page={{ page_obj.next_page_number }}">Next</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+   </div>
+  
+
+  </div>
+</div>
+
+
+{% endblock body %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}User All Blog Posts
+{% endblock title %}
+
+
+{% block body %}
+
+
+<div class="container mt-5 " style="width:80%;">
+  {% for post in page_obj %}
+
+  <div class="my-3 p-3 bg-white rounded shadow-lg">
+
+    <div class="media text pt-1 ml-4">
+
+      <h3 class="media-body pb-0 mb-0 ">
+        <a href='{{post.slug}}' class="d-block text-gray-dark" style="font-size: 21px">{{post.blogtitle}}</a>
+        <p class="pt-1 pb-0 mb-1 " style="font-size: small;">@{{post.writer}}</p>
+
+      </h3>
+        <form action="deleteblogpost" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="deletepostid" name="deletepostid" value="{{post.serialnumber}}">
+        <a href="{{post.slug}}/update" class='btn btn-warning m-1'>Edit</a>
+        <button type="submit" class='btn btn-danger m-1'>Delete</button>
+        </form>
+      
+    </div>
+  </div>
+
+
+  {% endfor %}
+
+
+
+  <!-- paginator section -->
+
+  <div>
+    <nav aria-label="...">
+      <ul class="pagination pagination-sm justify-content-end">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" style="color:#3C4146; border-color:darkgray"
+            href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+
+        {% endif %}
+
+        {% for i in page_obj.paginator.page_range %}
+        {% if i == page_obj.number %}
+        <li class="page-item active"><a class="page-link" style="background-color:green; border:none;"
+            href="?page={{i}}">{{i}}</a></li>
+
+        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+        <li class="page-item mx-1"><a class="page-link" style="border-radius:5px; border-color:darkgray;"
+            href="?page={{i}}">
+            <font color='#3C4146'>{{i}}</font>
+          </a></li>
+
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" style="color:#3C4146; border-color:darkgray"
+            href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+  </div>
+
+</div>
+
+{% endblock body %}

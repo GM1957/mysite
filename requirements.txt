@@ -1,0 +1,19 @@
+python==3.6.9
+django==3.0.6
+ckeditor==5
+psycopg2
+postgresql==12
+
+
+
+sudo apt-get install python
+pip3 install django
+pip3 install django-ckeditor
+sudo apt-get install postgresql
+sudo apt-get install python-psycopg2
+sudo apt-get install libpq-dev
+pip3 install psycopg2-binary
+
+open terminal type, sudo su postgres 
+CREATE DATABASE prefixpostfixdb;
+\password --to set new password and \du to see user

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Create New Blog Post
+{% endblock title %}
+
+{% block body %}
+
+
+
+<div class="container mt-5 mb-5" style="text-align: center;">
+    <form action="saveblog" method="post" enctype="multipart/form-data" style="font-family: 'El Messiri', sans-serif;">
+        {% csrf_token %}
+        {{ form.media }}
+        <div class="container" style="width: 78%;">
+            <h4>Give Blog Title</h4>
+            <span>{{form.blogtitle}}</span>
+            <h4 class='mt-3'>Give Blog Description</h4>
+            <span>{{form.blog_des}}</span>
+            <h4 class=' mt-3 mb-3' style="font-size: 25px;">Choose a Thumbnail Image</h4>
+            <input class="btn btn-sm ml-5 " type="file" name="thumbimage" accept="image/*" required><br>
+            <div class="mt-4 mb-5">
+                <h4 class='mb-2' >You write the best :)</h4>
+                <span>{{form.blogcontent}}</span>
+            </div>
+        </div>
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <input class='btn btn-success btn-lg' type="submit" href="saveblog" value="Save Blog">
+    </form>
+
+</div>
+
+{% endblock body %}

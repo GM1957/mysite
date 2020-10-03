@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}
+{{blogpost.blogtitle}}
+{% endblock title %}
+
+{% block body %}
+<!-- good font
+style="font-family: 'El Messiri', sans-serif; font-size: 40px;" -->
+
+
+<div class="container" style="width:65%; padding-top: 60px;">
+
+
+    <div class="blog-post">
+        <h2 class="blog-post-title"style="font-family: 'El Messiri', sans-serif; font-size: 35px;">{{blogpost.blogtitle}}</h2>
+        <small class="blog-post-title"><img class="ml-1 mt-2 mr-1" style="height:40px; width:40px; border-radius:15%;"
+            src='{{blogpost.writer.userdata.profile_pic.url}}' alt="user image">{{blogpost.writer.username}}</small>
+        <small><p class="blog-post-meta mt-1">{{blogpost.time}}</p></small>
+        
+        <hr>
+        <div>
+            <p>{{blogpost.blogcontent|safe}}</p>
+            <style>
+                    img {
+                             max-width: 100%;
+                             max-height: 100%;
+                             object-fit: contain;
+                             height: inherit !important;
+                        }
+            </style>
+            </div>
+        <hr>
+    </div>
+
+    <div class="container">
+        
+
+        <div class="col-md-12 col-sm-12 col-lg-12 my-4" style="align-content: center;">
+
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-50 position-relative">
+                <div class="col p-3 d-flex flex-column position-static ">
+
+                    <form action='postcomment' method='post'>
+                        {% csrf_token %}
+                        <div class="row">
+
+                            <div class="col-md-1 p-2">
+                            {% if request.user.is_authenticated %}
+                                <img class="ml-2 my-1" style="height:35px; width:35px; border-radius:15%;"
+                                    src='{{request.user.userdata.profile_pic.url}}' alt="user image">{% endif %}
+                                </div>
+
+                            <div class="col-md-11 p-2">
+                                <textarea type="text" placeholder="Write a Response..."
+                                    style="border:none; border-radius:0px; box-shadow:none; outline:none;"
+                                    class="form-control" name='comment' id="comment"
+                                    aria-describedby="comment"></textarea>
+                            </div>
+
+                            <input type="hidden" name="postSno" value="{{blogpost.serialnumber}}">
+
+                        </div>
+                        <button type="submit" style="border-radius: 0%;font-family: 'El Messiri', sans-serif; font-size: 18px;"
+                            class="btn btn-outline-success btn-lg btn-block"><b>Submit Response</b></button>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+        <h2 style="font-family: 'El Messiri', sans-serif; font-size: 25px;" >Responses</h2>
+        <div class="row my-3">
+            {% for comment in comments %}
+            <div class="col-md-12" style="align-content: center;">
+
+                <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-2 shadow-sm h-md-50 position-relative">
+                    <div class="col p-3 d-flex flex-column position-static ">
+                        <div class="row">
+                        <div class="col-md-1"><img class="ml-2 mt-2" style="height:35px; width:35px; border-radius:15%;"
+                                src='{{comment.user.userdata.profile_pic.url}}' alt="user image"></div>
+                        <div class="col-md-11" style="word-wrap: break-word;">
+                            <font size="2">@{{comment.user.username}}</font><br>{{comment.newcomment}}
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</div>
+
+    {% endblock body %}

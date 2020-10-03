@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+Add New Field
+{% endblock title %}
+
+{% block body %}
+
+<div class="container" style="text-align: center; width:60%; margin-top:80px">
+{% if user.is_authenticated %}
+
+    <form action="ProductSave" method='post' enctype="multipart/form-data" style="font-family: 'El Messiri', sans-serif; font-size: 25px; font-weight: 700;">
+    {% csrf_token %}
+    
+    <h3 class='mb-2'>Field Name</h3>
+            <span>{{form.product_name}}</span>
+    <h3 class='mb-2'>Description</h3>
+            <span>{{form.description}}</span>        
+    <h3>You have to give a relatable image</h3>
+    <input class="btn btn-sm ml-5 " type="file" name="image" accept="image/*" required><br>
+    <input class='btn btn-outline-success btn-block mt-4' type="submit" href="ProductSave" value="Add Field" Required>
+    </form>
+{% endif %}
+
+</div>
+
+{% endblock body %}

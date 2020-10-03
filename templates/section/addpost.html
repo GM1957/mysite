@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block titile %}
+Add new post
+{% endblock titile %}
+
+{% block body %}
+{% if user.is_authenticated %}
+
+<div class="container mt-5 mb-5" style="text-align: center;">
+    <form action="SavePost" method="post" style="font-family: 'El Messiri', sans-serif; font-size: 35px;">
+        {% csrf_token %}
+        {{ form.media }}
+        <div class="container" style="width: 78%;">
+            <h4>Title</h4>
+            <span>{{form.title}}</span>
+            <h4 class='mt-4'>Add a main field name in
+                which under you want to add this post</h4>
+            <span>{{form.parentname}}</span>
+            <div class="mt-4 mb-5">
+                <h4 class='mb-2' >You write the best :)</h4>
+                {{form.content}}
+            </div>
+        </div>
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <input class='btn btn-success btn-lg' type="submit" href="SavePost" value="Save Post">
+    </form>
+</div>
+<style>
+    input::-webkit-input-placeholder {
+        font-size: 15px;
+    }
+</style>
+
+{% else %}
+<h1>Please login to access this page</h1>
+{% endif %}
+{% endblock body %}

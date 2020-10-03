@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Create New Blog Post
+{% endblock title %}
+
+{% block body %}
+
+
+
+<div class="container mt-5 mb-5" style="text-align: center;">
+    <form method="post" style="font-family: 'El Messiri', sans-serif;">
+        {% csrf_token %}
+        {{ form.media }}
+        <div class="container" style="width: 78%;">
+            <h4>Blog Title</h4>
+            <span>{{form.blogtitle}}</span>
+            <h4 class='mt-3'>Blog Description</h4>
+            <span>{{form.blog_des}}</span>
+            <h4 class=' mt-3 mb-3' style="font-size: 25px;">Choose a Thumbnail Image</h4>
+            
+            {{form.Thumbnail_image}}
+            <div class="mt-4 mb-5">
+                <h4 class='mb-2' >You write the best :)</h4>
+                <span>{{form.blogcontent}}</span>
+            </div>
+        </div>
+        <h4 class='mt-3'>Edit The Url Slug (We recommend to give related to Title)</h4>
+            <span>{{form.slug}}</span><br>
+        {% comment %} {{ form.as_p }} {% endcomment %}
+        <button class='btn btn-success btn-lg my-3' type="submit">Update</button>
+    
+    
+    <style>
+          #id_blogtitle{
+          width: 80%;
+          padding: 5px 10px;
+          margin: 2px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+          font-size: 25px;
+          }
+          #id_blog_des{
+          width: 80%;
+          padding: 5px 10px;
+          margin: 2px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+          font-size: 25px;
+          }
+          #id_slug{
+          width: 80%;
+          padding: 5px 10px;
+          margin: 2px 0;
+          display: inline-block;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+          font-size: 25px;
+          }
+    
+    </style>
+    
+    
+    </form>
+
+</div>
+
+{% endblock body %}
